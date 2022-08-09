@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class GroundedState : State
 {
+	private float _verticalInput;
+	private float _horizontalInput;
+
+	protected float speed;
 	public GroundedState(Character character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
@@ -17,6 +21,8 @@ public class GroundedState : State
 	public override void PlayerInput()
 	{
 		base.PlayerInput();
+		_verticalInput = Input.GetAxisRaw("Vertical");
+		_horizontalInput = Input.GetAxisRaw("Horizontal");
 	}
 	public override void LogicUpdate()
 	{
@@ -25,5 +31,6 @@ public class GroundedState : State
 	public override void PhysicsUpdate()
 	{
 		base.PhysicsUpdate();
+		character.Move(_horizontalInput * speed, _verticalInput * speed);
 	}
 }
