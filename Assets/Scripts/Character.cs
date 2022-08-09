@@ -6,25 +6,33 @@ public class Character : MonoBehaviour
 {
 	#region StateMachineVariables
 	public StateMachine movementStateMachine;
-	public State standingState;
-	public State crouchingState;
-	public State jumpingState;
+	public State standing;
+	public State crouching;
+	public State jumping;
 	#endregion
-	#region Variables
-	[SerializeField] Transform _orientationHelper;
 
-	public float Speed = 2;
+	#region Variables
+	[SerializeField] private Transform _orientationHelper;
+
+	[SerializeField] private LayerMask _groundLayer;
+
+	public float Speed;
+	public float JumpForce;
+	#endregion
+
+	#region Properties
+
 	#endregion
 	private void Start()
 	{
 		GetComponent<Rigidbody>().freezeRotation = true;
 
 		movementStateMachine = new StateMachine();
-		standingState = new StandingState(this, movementStateMachine);
-		crouchingState = new CrouchingState(this, movementStateMachine);
-		jumpingState = new JumpingState(this, movementStateMachine);
+		standing = new StandingState(this, movementStateMachine);
+		crouching = new CrouchingState(this, movementStateMachine);
+		jumping = new JumpingState(this, movementStateMachine);
 
-		movementStateMachine.Initialize(standingState);
+		movementStateMachine.Initialize(standing);
 	}
 	private void Update()
 	{
@@ -36,9 +44,10 @@ public class Character : MonoBehaviour
 		movementStateMachine.CurrentState.PhysicsUpdate();
 	}
 
-	public void Move(float horizontalSpeed, float verticalSpeed)
+	public void Move(float horizontalSpeed, float verticalSpeed, float speed)
 	{
-		Vector3 targetVelocity = _orientationHelper.forward * verticalSpeed + _orientationHelper.right * horizontalSpeed;
-		GetComponent<Rigidbody>().AddForce(targetVelocity * Time.deltaTime, ForceMode.Force);
+		Vector3 targetDirection = _orientationHelper.forward * verticalSpeed + _orientationHelper.right * horizontalSpeed;
+		GetComponent<Rigidbody>().AddForce(targetDirection.normalized * 10f * speed, ForceMode.Force);
 	}
+	public bool CheckCollision(Vector3 pointToCheck) => Physics.CheckSphere(pointToCheck, 0.2f, _groundLayer);
 }

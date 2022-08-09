@@ -31,6 +31,6 @@ public class GroundedState : State
 	public override void PhysicsUpdate()
 	{
 		base.PhysicsUpdate();
-		character.Move(_horizontalInput * 10f * speed, _verticalInput * 10f * speed);
+		character.Move(_horizontalInput, _verticalInput, speed);
 	}
 }
