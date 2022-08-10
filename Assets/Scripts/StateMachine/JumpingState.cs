@@ -9,7 +9,8 @@ public class JumpingState : State
 	public override void Enter()
 	{
 		base.Enter();
-		character.GetComponent<Rigidbody>().AddForce(character.transform.up * character.JumpForce, ForceMode.Impulse);
+		Jump();
+		stateMachine.ChangeState(character.air);
 	}
 	public override void Exit()
 	{
@@ -26,7 +27,10 @@ public class JumpingState : State
 	public override void PhysicsUpdate()
 	{
 		base.PhysicsUpdate();
-		if (character.CheckCollision(character.transform.position))
-			stateMachine.ChangeState(character.standing);
+	}
+	private void Jump()
+	{
+		character.transform.Translate(Vector3.up * (character.ColisionRadius + 0.01f));
+		character.GetComponent<Rigidbody>().AddForce(character.transform.up * character.JumpForce, ForceMode.Impulse);
 	}
 }

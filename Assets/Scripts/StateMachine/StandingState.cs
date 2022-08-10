@@ -24,13 +24,10 @@ public class StandingState : GroundedState
 	public override void LogicUpdate()
 	{
 		base.LogicUpdate();
-		if (_jump)
-		{
-			if (character.CheckCollision(character.transform.position))
-			{
-				stateMachine.ChangeState(character.jumping);
-			}
-		}
+		if (_jump && grounded)
+			stateMachine.ChangeState(character.jumping);
+		if(!grounded)
+			stateMachine.ChangeState(character.air);
 	}
 	public override void PhysicsUpdate()
 	{
