@@ -8,7 +8,6 @@ public class Character : MonoBehaviour
 	#region StateMachine
 	[HideInInspector] public StateMachine movementStateMachine;
 	[HideInInspector] public State standing;
-	[HideInInspector] public State crouching;
 	[HideInInspector] public State jumping;
 	[HideInInspector] public State air;
 	#endregion
@@ -34,7 +33,6 @@ public class Character : MonoBehaviour
 
 		movementStateMachine = new StateMachine();
 		standing = new StandingState(this, movementStateMachine);
-		crouching = new CrouchingState(this, movementStateMachine);
 		jumping = new JumpingState(this, movementStateMachine);
 		air = new AirState(this, movementStateMachine);
 
