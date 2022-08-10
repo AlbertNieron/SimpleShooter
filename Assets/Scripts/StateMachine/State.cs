@@ -10,7 +10,7 @@ public abstract class State
 	}
 	public virtual void Enter()
 	{
-
+		character.currentState.text = this.ToString();
 	}
 	public virtual void PlayerInput()
 	{

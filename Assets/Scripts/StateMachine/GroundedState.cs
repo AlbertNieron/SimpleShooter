@@ -7,12 +7,14 @@ public class GroundedState : State
 	private float _horizontalInput;
 
 	protected float speed;
+	protected bool grounded;
 	public GroundedState(Character character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
 	public override void Enter()
 	{
 		base.Enter();
+		character.GetComponent<Rigidbody>().drag = character.GroundDrag;
 	}
 	public override void Exit()
 	{
@@ -31,6 +33,8 @@ public class GroundedState : State
 	public override void PhysicsUpdate()
 	{
 		base.PhysicsUpdate();
-		character.Move(_horizontalInput * 10f * speed, _verticalInput * 10f * speed);
+		character.Move(_horizontalInput, _verticalInput, speed);
+
+		grounded = character.CheckCollision(character.transform.position + new Vector3(0, character.ColisionRadius - 0.1f, 0));
 	}
 }
