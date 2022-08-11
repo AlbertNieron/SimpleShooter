@@ -15,17 +15,24 @@ public class Character : MonoBehaviour
 	#region Variables
 	[SerializeField] private Transform _orientationHelper;
 	[SerializeField] private LayerMask _groundLayer;
-
 	public TMP_Text currentState;
+
+	[Header("Player characteristic")]
+	[SerializeField] private float _speed;
+	[SerializeField] private float _airSpeed;
+	[SerializeField] private float _jumpForce;
+	[SerializeField] private float _collisionRadius;
+	[SerializeField] private float _groundDrag;
+	[SerializeField] private float _airDrag;
 	#endregion
 
 	#region Properties
-	public float Speed;
-	public float AirSpeed;
-	public float JumpForce;
-	public float ColisionRadius;
-	public float GroundDrag;
-	public float AirDrag;
+	public float Speed => _speed;   // ENCAPSULATION
+	public float AirSpeed => _airSpeed;
+	public float JumpForce => _jumpForce;
+	public float ColisionRadius => _collisionRadius;
+	public float GroundDrag => _groundDrag;
+	public float AirDrag => _airDrag;
 	#endregion
 	private void Start()
 	{
@@ -47,7 +54,7 @@ public class Character : MonoBehaviour
 	{
 		movementStateMachine.CurrentState.PhysicsUpdate();
 	}
-	public void Move(float horizontalSpeed, float verticalSpeed, float speed)
+	public void Move(float horizontalSpeed, float verticalSpeed, float speed)   // ABSTRACTION
 	{
 		Vector3 targetDirection = _orientationHelper.forward * verticalSpeed + _orientationHelper.right * horizontalSpeed;
 		GetComponent<Rigidbody>().AddForce(targetDirection.normalized * 10f * speed, ForceMode.Force);
