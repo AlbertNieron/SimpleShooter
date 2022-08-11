@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class StandingState : GroundedState  // INHERITANCE
 {
 	private bool _jump;
@@ -21,12 +19,12 @@ public class StandingState : GroundedState  // INHERITANCE
 		base.PlayerInput();
 		_jump = Input.GetButtonDown("Jump");
 	}
-	public override void LogicUpdate()	// POLYMORPHISM
+	public override void LogicUpdate()  // POLYMORPHISM
 	{
 		base.LogicUpdate();
 		if (_jump && grounded)
 			stateMachine.ChangeState(character.jumping);
-		if(!grounded)
+		if (!grounded)
 			stateMachine.ChangeState(character.air);
 	}
 	public override void PhysicsUpdate()
