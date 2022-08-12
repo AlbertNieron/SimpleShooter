@@ -10,7 +10,7 @@ public abstract class State
 	}
 	public virtual void Enter()
 	{
-		character.currentState.text = this.ToString();
+		character.DebugState(this);
 	}
 	public virtual void PlayerInput()
 	{
@@ -22,7 +22,7 @@ public abstract class State
 	}
 	public virtual void PhysicsUpdate()
 	{
-
+		character.DebugSpeed();
 	}
 	public virtual void Exit()
 	{

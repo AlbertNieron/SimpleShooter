@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerCamera : MonoBehaviour
+public class MouseLook : MonoBehaviour
 {
 	[SerializeField] private Transform _orientationHelper;
 	[SerializeField][Range(50, 200)] private float _sensitivity = 50f;

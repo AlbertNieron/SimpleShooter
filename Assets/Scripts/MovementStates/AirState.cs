@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 
-public class AirState : GroundedState
+public class AirState : MovementState
 {
+	private float airTime;
 	public AirState(Character character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
 	public override void Enter()
 	{
 		base.Enter();
+		airTime = 1;
 		speed = character.AirSpeed;
 		character.GetComponent<Rigidbody>().drag = character.AirDrag;
 	}
@@ -22,10 +24,12 @@ public class AirState : GroundedState
 	public override void LogicUpdate()
 	{
 		base.LogicUpdate();
+		airTime += Time.deltaTime;
 		if (grounded) stateMachine.ChangeState(character.standing);
 	}
 	public override void PhysicsUpdate()
 	{
 		base.PhysicsUpdate();
+		character.Move(airTime);
 	}
 }

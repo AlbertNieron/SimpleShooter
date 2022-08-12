@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class JumpingState : State
 {
@@ -30,6 +31,7 @@ public class JumpingState : State
 	private void Jump()
 	{
 		character.transform.Translate(Vector3.up * (character.ColisionRadius + 0.01f));
-		character.GetComponent<Rigidbody>().AddForce(character.transform.up * character.JumpForce, ForceMode.Impulse);
+		Rigidbody rb = character.GetComponent<Rigidbody>();
+		rb.AddForce(character.transform.up * rb.mass * character.JumpForce, ForceMode.Impulse);
 	}
 }

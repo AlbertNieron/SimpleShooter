@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class GroundedState : State
+public class MovementState : State
 {
-	private float _verticalInput;
-	private float _horizontalInput;
+	protected float _verticalInput;
+	protected float _horizontalInput;
 
 	protected float speed;
 	protected bool grounded;
-	public GroundedState(Character character, StateMachine stateMachine) : base(character, stateMachine)
+	public MovementState(Character character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
 	public override void Enter()
@@ -32,8 +32,8 @@ public class GroundedState : State
 	public override void PhysicsUpdate()
 	{
 		base.PhysicsUpdate();
-		character.Move(_horizontalInput, _verticalInput, speed);
-
+		
 		grounded = character.CheckCollision(character.transform.position + new Vector3(0, character.ColisionRadius - 0.1f, 0));
+		character.Move(_horizontalInput, _verticalInput, speed, grounded);
 	}
 }

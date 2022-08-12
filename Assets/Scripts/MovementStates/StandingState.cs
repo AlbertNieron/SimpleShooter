@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
-public class StandingState : GroundedState  // INHERITANCE
+public class StandingState : MovementState  // INHERITANCE
 {
 	private bool _jump;
+	protected bool sprint;
 	public StandingState(Character character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
@@ -18,6 +19,7 @@ public class StandingState : GroundedState  // INHERITANCE
 	{
 		base.PlayerInput();
 		_jump = Input.GetButtonDown("Jump");
+		sprint = Input.GetKey(KeyCode.LeftShift);
 	}
 	public override void LogicUpdate()  // POLYMORPHISM
 	{
@@ -26,6 +28,8 @@ public class StandingState : GroundedState  // INHERITANCE
 			stateMachine.ChangeState(character.jumping);
 		if (!grounded)
 			stateMachine.ChangeState(character.air);
+		if (sprint && grounded)
+			stateMachine.ChangeState(character.sprinting);
 	}
 	public override void PhysicsUpdate()
 	{
