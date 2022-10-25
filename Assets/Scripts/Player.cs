@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Character : MonoBehaviour
+public class Player : MonoBehaviour
 {
 	#region StateMachine
 	internal StateMachine movementStateMachine;
@@ -13,23 +13,23 @@ public class Character : MonoBehaviour
 	#endregion
 
 	#region Variables
-	[SerializeField] private Transform _orientationHelper;
+	[SerializeField] private Transform _head;
 	[SerializeField] private LayerMask _groundLayer;
 
 	[Header("Player characteristic")]
-	[SerializeField] private float _speed;
-	[SerializeField] private float _sprintingSpeed;
-	[SerializeField] private float _airSpeed;
-	[SerializeField] private float _jumpForce;
-	[SerializeField] private float _collisionRadius;
-	[SerializeField] private float _groundDrag;
-	[SerializeField] private float _airDrag;
+	[SerializeField] private float _speed = 30f;
+	[SerializeField] private float _sprintingSpeed = 42f;
+	[SerializeField] private float _airSpeed = 4f;
+	[SerializeField] private float _jumpForce = 6f;
+	[SerializeField] private float _groundDetectionRadius = 0.2f;
+	[SerializeField] private float _groundDrag = 5f;
+	[SerializeField] private float _airDrag = 0.9f;
 
 	[Header("Debug")]
 	[SerializeField] private TMP_Text _debugState;
 	[SerializeField] private TMP_Text _debugSpeed;
 
-	internal Rigidbody _rb;
+	internal Rigidbody _playerRB;
 	private Vector3 _moveDirection;
 	private RaycastHit _slopeHit;
 	private float _gravity = 9.81f;
@@ -39,18 +39,18 @@ public class Character : MonoBehaviour
 	public float Speed => _speed;   // ENCAPSULATION
 	public float AirSpeed => _airSpeed;
 	public float JumpForce => _jumpForce;
-	public float ColisionRadius => _collisionRadius;
+	public float GroundDetectionRadius => _groundDetectionRadius;
 	public float GroundDrag => _groundDrag;
 	public float AirDrag => _airDrag;
 	public float SprintingSpeed => _sprintingSpeed;
 	#endregion
 
 	#region Foundation
-	private void Start()
+	private void Awake()
 	{
-		_rb = GetComponent<Rigidbody>();
-		_rb.freezeRotation = true;
-		_rb.useGravity = false;
+		_playerRB = GetComponent<Rigidbody>();
+		_playerRB.freezeRotation = true;
+		_playerRB.useGravity = false;
 
 		movementStateMachine = new StateMachine();
 		standing = new StandingState(this, movementStateMachine);
@@ -72,22 +72,23 @@ public class Character : MonoBehaviour
 	#endregion
 
 	#region Methods
-	public void Move(float horizontalInput, float verticalInput, float speed, bool grounded)	//ABSTRACTION
+	public void Move(float horizontalInput, float verticalInput, float speed, bool grounded)    //ABSTRACTION
 	{
-		_moveDirection = _orientationHelper.forward * verticalInput + _orientationHelper.right * horizontalInput;
+		_moveDirection = _head.forward * verticalInput + _head.right * horizontalInput;
 		if (grounded)
 		{
 			float angle = CalculateSlopeAngle();
-			if(angle > 0)
+			if (angle > 0)
 			{
 				_moveDirection = Vector3.ProjectOnPlane(_moveDirection, _slopeHit.normal);
 			}
 		}
-		_rb.AddForce(_moveDirection.normalized * _rb.mass * speed, ForceMode.Force);
+		_playerRB.AddForce(_moveDirection.normalized * _playerRB.mass * speed, ForceMode.Force);
 	}
 	public void Move(float airTime)
 	{
-		_rb.AddForce(Vector3.down * _rb.mass * airTime * airTime * _gravity, ForceMode.Force);
+		float squaredAirTime = airTime * airTime;
+		_playerRB.AddForce(Vector3.down * _playerRB.mass * squaredAirTime * _gravity, ForceMode.Force);
 	}
 	public float CalculateSlopeAngle()
 	{
@@ -97,7 +98,7 @@ public class Character : MonoBehaviour
 	}
 	public bool CheckCollision(Vector3 pointToCheck)
 	{
-		return Physics.CheckSphere(pointToCheck, ColisionRadius, _groundLayer);
+		return Physics.CheckSphere(pointToCheck, GroundDetectionRadius, _groundLayer);
 	}
 	#endregion
 
@@ -108,7 +109,7 @@ public class Character : MonoBehaviour
 	}
 	public void DebugSpeed()
 	{
-		_debugSpeed.text = Mathf.Round(_rb.velocity.magnitude).ToString();
+		_debugSpeed.text = Mathf.Round(_playerRB.velocity.magnitude).ToString();
 	}
 	#endregion
 }

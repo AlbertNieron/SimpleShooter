@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class JumpingState : State
 {
-	public JumpingState(Character character, StateMachine stateMachine) : base(character, stateMachine)
+	public JumpingState(Player character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
 	public override void Enter()
@@ -30,7 +30,7 @@ public class JumpingState : State
 	}
 	private void Jump()
 	{
-		character.transform.Translate(Vector3.up * (character.ColisionRadius + 0.01f));
+		character.transform.Translate(Vector3.up * (character.GroundDetectionRadius + 0.01f));
 		Rigidbody rb = character.GetComponent<Rigidbody>();
 		rb.AddForce(character.transform.up * rb.mass * character.JumpForce, ForceMode.Impulse);
 	}

@@ -1,7 +1,7 @@
 using UnityEngine;
 public class SprintingState : StandingState
 {
-	public SprintingState(Character character, StateMachine stateMachine): base(character, stateMachine)
+	public SprintingState(Player character, StateMachine stateMachine): base(character, stateMachine)
 	{
 	}
 	public override void Enter()

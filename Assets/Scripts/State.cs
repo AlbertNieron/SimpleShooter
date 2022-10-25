@@ -1,9 +1,9 @@
 using UnityEngine;
 public abstract class State
 {
-	protected Character character;
+	protected Player character;
 	protected StateMachine stateMachine;
-	protected State(Character character, StateMachine stateMachine)
+	protected State(Player character, StateMachine stateMachine)
 	{
 		this.character = character;
 		this.stateMachine = stateMachine;

@@ -7,7 +7,7 @@ public class MovementState : State
 
 	protected float speed;
 	protected bool grounded;
-	public MovementState(Character character, StateMachine stateMachine) : base(character, stateMachine)
+	public MovementState(Player character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
 	public override void Enter()
@@ -33,7 +33,7 @@ public class MovementState : State
 	{
 		base.PhysicsUpdate();
 		
-		grounded = character.CheckCollision(character.transform.position + new Vector3(0, character.ColisionRadius - 0.1f, 0));
+		grounded = character.CheckCollision(character.transform.position + new Vector3(0, character.GroundDetectionRadius - 0.1f, 0));
 		character.Move(_horizontalInput, _verticalInput, speed, grounded);
 	}
 }

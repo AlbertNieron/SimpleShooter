@@ -3,7 +3,7 @@ public class StandingState : MovementState  // INHERITANCE
 {
 	private bool _jump;
 	protected bool sprint;
-	public StandingState(Character character, StateMachine stateMachine) : base(character, stateMachine)
+	public StandingState(Player character, StateMachine stateMachine) : base(character, stateMachine)
 	{
 	}
 	public override void Enter()

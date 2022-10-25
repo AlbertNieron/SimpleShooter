@@ -3,8 +3,9 @@
 public class AirState : MovementState
 {
 	private float airTime;
-	public AirState(Character character, StateMachine stateMachine) : base(character, stateMachine)
+	public AirState(Player character, StateMachine stateMachine) : base(character, stateMachine)
 	{
+
 	}
 	public override void Enter()
 	{
