@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MovementState : State
+public abstract class MovementState : State
 {
 	protected float _verticalInput;
 	protected float _horizontalInput;

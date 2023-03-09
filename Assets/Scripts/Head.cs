@@ -10,12 +10,15 @@ public class Head : MonoBehaviour
 	[SerializeField] private TMP_Text _idPlate;
 	[SerializeField] private float _checkDistanceSquared;
 
+	private static Head _singleton;
 	private float _xRotation;
 	private float _yRotation;
 
 	[SerializeField]
 	static public GameObject TargetItem { get; private set; }
 	public static bool CanPickUp { get; private set; }
+
+	public static Vector3 Position => _singleton.transform.position;
 
 	private void Awake()
 	{
@@ -25,6 +28,7 @@ public class Head : MonoBehaviour
 
 	private void Start()
 	{
+		if (_singleton is null || _singleton != this) { _singleton = this; }
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 	}
@@ -36,7 +40,7 @@ public class Head : MonoBehaviour
 
 		LookAround(horizontalInput * _sensitivity, verticalInput * _sensitivity);
 
-		if (Hands.isItemMooving)
+		if (Hands.IsItemMooving)
 		{
 			CanPickUp = false;
 		}
@@ -44,7 +48,7 @@ public class Head : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (!Hands.isItemMooving)
+		if (!Hands.IsItemMooving)
 		{
 			CheckObjectOfInterest();
 		}
@@ -68,12 +72,12 @@ public class Head : MonoBehaviour
 	{
 		RaycastHit sightPoint;
 
-		if (Physics.Raycast(transform.position, _eyes.transform.forward, out sightPoint,3f, _playerLayer))
+		if (Physics.Raycast(transform.position, _eyes.transform.forward, out sightPoint, 3f, _playerLayer))
 		{
 			if (sightPoint.transform.GetComponent<CanPickUp>())
 			{
 				float distance = Vector3.SqrMagnitude(sightPoint.transform.position - transform.position);
-				if(distance < _checkDistanceSquared)
+				if (distance < _checkDistanceSquared)
 				{
 					TargetItem = sightPoint.transform.gameObject;
 					CanPickUp = true;
@@ -92,7 +96,7 @@ public class Head : MonoBehaviour
 		{
 			Vector3 platePos = Camera.main.WorldToScreenPoint(TargetItem.transform.position);
 			_idPlate.transform.position = platePos;
-			_idPlate.text = TargetItem.tag + ": " +TargetItem.name;
+			_idPlate.text = TargetItem.tag + ": " + TargetItem.name;
 			_idPlate.gameObject.SetActive(true);
 		}
 		else

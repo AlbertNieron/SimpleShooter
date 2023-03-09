@@ -22,7 +22,7 @@ public class Hands : MonoBehaviour
 	private Weapon[] _weaponSlots;
 	private int _currentWeaponSlot = 0;
 
-	private int currentWeaponSlot
+	private int CurrentWeaponSlot
 	{
 		get { return _currentWeaponSlot; }
 		set
@@ -44,11 +44,11 @@ public class Hands : MonoBehaviour
 		}
 	}
 
-	public static bool isItemMooving { get; private set; }
+	public static bool IsItemMooving { get; private set; }
 
-	public Weapon currentWeapon
+	public Weapon CurrentWeapon
 	{
-		get { return _weaponSlots[currentWeaponSlot]; }
+		get { return _weaponSlots[CurrentWeaponSlot]; }
 	}
 
 	private void Awake()
@@ -63,19 +63,19 @@ public class Hands : MonoBehaviour
 			TryPickUp(Head.TargetItem);
 		}
 
-		if (Input.GetKeyDown(KeyCode.X) && currentWeapon != null)
+		if (Input.GetKeyDown(KeyCode.X) && CurrentWeapon != null)
 		{
-			DropItem(currentWeapon.gameObject);
+			DropItem(CurrentWeapon.gameObject);
 		}
 
-		if (Input.GetKeyDown(KeyCode.Q) && !isItemMooving)
+		if (Input.GetKeyDown(KeyCode.Q) && !IsItemMooving)
 		{
 			NextWeapon();
 		}
 
-		if (Input.GetKey(KeyCode.Mouse0) && !isItemMooving && currentWeapon != null)
+		if (Input.GetKey(KeyCode.Mouse0) && !IsItemMooving && CurrentWeapon != null)
 		{
-			currentWeapon.PullTheTrigger();
+			CurrentWeapon.PullTheTrigger();
 		}
 	}
 
@@ -90,7 +90,7 @@ public class Hands : MonoBehaviour
 
 	private void NextWeapon()
 	{
-		currentWeaponSlot++;
+		CurrentWeaponSlot++;
 	}
 
 	private int? GiveSlot(string whatIsSlot)
@@ -106,7 +106,7 @@ public class Hands : MonoBehaviour
 							return i;
 						}
 					}
-					return currentWeaponSlot;
+					return CurrentWeaponSlot;
 				}
 			default: return null;
 		}
@@ -125,12 +125,12 @@ public class Hands : MonoBehaviour
 
 					if (_weaponSlots[(int)slot] != null)
 					{
-						DropItem(currentWeapon.gameObject);
+						DropItem(CurrentWeapon.gameObject);
 					}
 
-					int installationSlot = currentWeapon == null ? currentWeaponSlot : (int)slot;
+					int installationSlot = CurrentWeapon == null ? CurrentWeaponSlot : (int)slot;
 
-					StartCoroutine(MoveItem(item, _rightHand, _liftItemDuration, true, currentWeaponSlot == installationSlot));
+					StartCoroutine(MoveItem(item, _rightHand, _liftItemDuration, true, CurrentWeaponSlot == installationSlot));
 
 					_weaponSlots[installationSlot] = targetWeapon;
 					return;
@@ -141,9 +141,9 @@ public class Hands : MonoBehaviour
 
 	IEnumerator MoveItem(GameObject item, Transform destination, float duration = 0, bool usePhysics = false, bool setActive = true)
 	{
-		if (isItemMooving) { yield return null; }
+		if (IsItemMooving) { yield return null; }
 
-		isItemMooving = true;
+		IsItemMooving = true;
 
 		if (usePhysics && item.TryGetComponent(out Rigidbody itemRb))
 		{
@@ -168,7 +168,7 @@ public class Hands : MonoBehaviour
 		item.transform.SetPositionAndRotation(destination.position, destination.rotation);
 		item.transform.SetParent(destination);
 		item.SetActive(setActive);
-		isItemMooving = false;
+		IsItemMooving = false;
 	}
 
 	private void DropItem(GameObject item)
@@ -189,7 +189,7 @@ public class Hands : MonoBehaviour
 		{
 			case "Weapon":
 				{
-					_weaponSlots[currentWeaponSlot] = null;
+					_weaponSlots[CurrentWeaponSlot] = null;
 					return;
 				}
 		}

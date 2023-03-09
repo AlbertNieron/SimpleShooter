@@ -21,11 +21,9 @@ public class Weapon : MonoBehaviour
 
 	public void PullTheTrigger()
 	{
-		print("pull");
 		if (_readyToShoot)
 		{
 			Fire();
-			print("fire");
 		}
 	}
 	private void Fire()

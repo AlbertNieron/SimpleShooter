@@ -237,10 +237,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3251018307583578012}
   - component: {fileID: 182313882577627020}
-  - component: {fileID: 4300181187654233396}
   - component: {fileID: 2449597805158660380}
+  - component: {fileID: 2865779940948489350}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: NPC
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -275,35 +275,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92cb704d2ce968745ac9deb7d5b8c3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _head: {fileID: 7098040168334901364}
+  _essence: 2
+  _health: 100
+  _sqrVisibilityRange: 0
+  _viewingAngle: 60
   _weapons:
   - {fileID: 0}
   - {fileID: 0}
-  _speed: 0
-  _viewAngle: 0
-  _health: 0
-  _timeBetweenAttacking: 0
-  _importance: 0
+  _enemyDetectionTime: 1
+  _sqrAttackingRange: 5
+  _timeBetweenAttacking: 3
   _route: {fileID: 0}
---- !u!95 &4300181187654233396
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5607133808048992074}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 94823a59fa4ca48499b78d72adc91e79, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 1
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  _chanceToReturnToPreviousServicePost: 0.01
+  _pointReachingAccuracy: 0.5
 --- !u!195 &2449597805158660380
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -314,11 +299,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.35
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 3
+  m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 2
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -326,3 +311,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &2865779940948489350
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5607133808048992074}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0

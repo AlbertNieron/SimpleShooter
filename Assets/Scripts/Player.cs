@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 	#region StateMachine
-	internal StateMachine movementStateMachine;
+	internal StateMachine playerBehaviour;
 	internal State standing;
 	internal State jumping;
 	internal State air;
@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
 	public float GroundDrag => _groundDrag;
 	public float AirDrag => _airDrag;
 	public float SprintingSpeed => _sprintingSpeed;
+	public  Transform Head => _head;
 	#endregion
 
 	#region Foundation
@@ -52,22 +53,22 @@ public class Player : MonoBehaviour
 		_playerRB.freezeRotation = true;
 		_playerRB.useGravity = false;
 
-		movementStateMachine = new StateMachine();
-		standing = new StandingState(this, movementStateMachine);
-		jumping = new JumpingState(this, movementStateMachine);
-		air = new AirState(this, movementStateMachine);
-		sprinting = new SprintingState(this, movementStateMachine);
+		playerBehaviour = new StateMachine();
+		standing = new StandingState(this, playerBehaviour);
+		jumping = new JumpingState(this, playerBehaviour);
+		air = new AirState(this, playerBehaviour);
+		sprinting = new SprintingState(this, playerBehaviour);
 
-		movementStateMachine.Initialize(standing);
+		playerBehaviour.Initialize(standing);
 	}
 	private void Update()
 	{
-		movementStateMachine.CurrentState.PlayerInput();
-		movementStateMachine.CurrentState.LogicUpdate();
+		playerBehaviour.CurrentState.PlayerInput();
+		playerBehaviour.CurrentState.LogicUpdate();
 	}
 	private void FixedUpdate()
 	{
-		movementStateMachine.CurrentState.PhysicsUpdate();
+		playerBehaviour.CurrentState.PhysicsUpdate();
 	}
 	#endregion
 
